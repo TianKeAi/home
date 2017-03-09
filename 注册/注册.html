@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>注册</title>
+	<style type="text/css">
+		*{
+			margin: 0px;
+			padding: 0px;
+		}
+        #box{
+        	width: 300px;
+        	height: 360px;
+        	margin-left: 300px;
+        	margin-top: 100px;
+        	background: #fff;
+        	border: 1px red solid;
+        }
+        .box1{
+            width: 300px;
+            height: 50px;
+            position: relative;
+        }
+        span{
+        	text-align: center;
+        	font-size: 18px;
+        	margin-top: 10px;
+        	margin-left: 10px;
+        }
+        input{
+        	width: 150px;
+        	height: 27px;
+        	margin-top: 5px;
+        }
+        .false{
+        	border:1px red solid;
+        }
+        .true{
+        	border:1px green solid;
+        }
+        button{
+            width: 60%;
+            height: 35px;
+            margin-left: 20%;
+            margin-top: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 24px;
+            border:1px red solid;
+        }
+         .box1 div{
+         	position: absolute;
+        	right: 20px;
+        	top: 10px;
+        	width: 20px;
+        	height: 20px;
+        }
+        .picture1{
+        	background: url(3.png
+        		) no-repeat;
+        }
+        .picture2{
+        	background: url(4.png
+        		) no-repeat;
+        }
+        .picture3{
+        	background: url(1.png
+        		) no-repeat;
+        }
+        .picture4{
+        	background: url(2.png
+        		) no-repeat;
+        }
+	</style>
+</head>
+<body>
+	<div id="box">
+		<form method="#">
+			<div class="box1"><span>真实姓名：</span><input id="userName" type="text" name=""><div></div></div>
+			<div class="box1"><span>密码：</span><input id="password" type="password" name=""><div class="picture3"></div></div>
+			<div class="box1"><span>确认密码：</span><input id="repassword" type="password" name=""><div class="picture3"></div></div>
+			<div class="box1"><span>邮箱：</span><input id="email" type="text" name=""><div></div></div>
+			<div class="box1"><span>手机号码：</span><input id="phone" type="text" name=""><div></div></div>
+			<button>注册</button>
+		</form>
+		<script type="text/javascript">
+			window.onload=function(){
+				var aInput=document.getElementsByTagName('input');
+				var oneInput=document.getElementById('userName');
+				var twoInput=document.getElementById('password');
+				var threeInput=document.getElementById('repassword');
+				var fourInput=document.getElementById('email');
+				var fiveInput=document.getElementById('phone');
+				var aBox=document.getElementsByClassName('box1');
+				// 分别获取显示图片的div
+				var aDiv=aBox[0].getElementsByTagName('div')[0];
+				var aDiv1=aBox[1].getElementsByTagName('div')[0];
+				var aDiv2=aBox[2].getElementsByTagName('div')[0];
+				var aDiv3=aBox[3].getElementsByTagName('div')[0];
+				var aDiv4=aBox[4].getElementsByTagName('div')[0];
+				// 每次刷新使text为空
+				for(var j=0;j<aInput.length;j++){
+					aInput[j].value='';
+				}
+				// 密码显示与否的开关
+				bTu=1;
+				bTu1=2;
+				// 正则表达式
+				// 验证姓名，汉字和字母
+				var re=/^[a-zA-Z\u4e00-\u9fa5]+$/;
+				// 验证密码，8-16位字母或数字，不能全为数字或字母
+				var re1=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
+				// 验证邮箱
+				var re3= /^\w+([-+.]\w+)*@\w+([-.]\\w+)*\.\w+([-.]\w+)*$/;
+				// 验证手机号码
+				var re4=/^1[3|4|5|8][0-9]\d{4,8}$/;
+				// 将span右对齐
+				var aSpan=document.getElementsByTagName('span');
+				for(var i=0;i<aSpan.length;i++){
+					if (aSpan[i].offsetWidth==54) {
+						aSpan[i].style.marginLeft=46+'px';
+					}
+				}
+				// 密码的显示和隐藏
+				aDiv1.onclick=function(){
+					if (bTu==1) {
+					aDiv1.className='picture4';
+					aInput[1].type='text';
+					bTu=2;
+				}else{
+					aDiv1.className='picture3';
+					aInput[1].type='password';
+					bTu=1;
+				}
+				}
+				aDiv2.onclick=function(){
+					if (bTu1==2) {
+					aDiv2.className='picture4';
+					aInput[2].type='text';
+					bTu1=3;
+				}else{
+					aDiv2.className='picture3';
+					aInput[2].type='password';
+					bTu1=2;
+				}
+				}
+				// 姓名验证
+				oneInput.onfocus=function(){
+					oneInput.className='true';
+				}
+				oneInput.onblur=function(){
+					if (!re.test(this.value)) {
+						oneInput.className='false';
+                        aDiv.className='picture2';
+					}else{
+						aDiv.className='picture1';
+					}
+				}
+				// 密码和确认密码
+				twoInput.onfocus=function(){
+					twoInput.className='true';
+				}
+				twoInput.onblur=function(){
+					if (!re1.test(this.value)) {
+						twoInput.className='false';
+					}
+					threeInput.onfocus=function(){
+					threeInput.className='true';
+				    }
+				    threeInput.onblur=function(){
+					    if (threeInput.value!=twoInput.value||!re1.test(this.value)) {
+						threeInput.className='false';
+					    }
+				    }
+				}
+				// 邮箱验证
+				fourInput.onfocus=function(){
+					fourInput.className='true';
+				}
+				fourInput.onblur=function(){
+					if (!re3.test(this.value)) {
+						fourInput.className='false';
+                      aDiv3.className='picture2';
+					}else{
+						aDiv3.className='picture1';
+					}
+				}
+				// 手机号码验证
+				fiveInput.onfocus=function(){
+					fiveInput.className='true';
+				}
+				fiveInput.onblur=function(){
+					if (!re4.test(this.value)) {
+						fiveInput.className='false';
+                      aDiv4.className='picture2';
+					}else{
+						aDiv4.className='picture1';
+					}
+				}
+			}
+		</script>
+	</div>
+</body>
+</html>

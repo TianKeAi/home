@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>time</title>
+	<style type="text/css">
+		body{
+			background: pink;
+			color: white;
+			font-size: 30px;
+		}
+		#box{
+			position:absolute;
+			width: 250px;
+			left:200px;
+			top: 200px;
+			height: 36px;
+			border:1px solid #fff;
+			background: #d8e0e2;
+			border-radius: 5px;
+		}
+		#box img{
+			width: 30px;
+			height: 36px;
+			position: relative;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<img src="0.jpg" />
+		<img src="0.jpg" />:
+		<img src="0.jpg" />
+		<img src="0.jpg" />:
+		<img src="0.jpg" />
+		<img src="0.jpg" />
+	</div>
+	<script type="text/javascript">
+	var oImg=document.getElementsByTagName("img");
+	var date=new Date();
+	var prevStr=toZoo(date.getHours())+toZoo(date.getMinutes())+toZoo(date.getSeconds());
+	var nextStr="";
+	var arr=[];
+	var timer=null;
+	for(i=0;i<oImg.length;i++){
+				oImg[i].src=prevStr.charAt(i)+'.jpg';
+			}
+	setInterval(toRun,1000);
+
+	function toRun(){
+         var date=new Date();
+         nextStr=toZoo(date.getHours())+toZoo(date.getMinutes())+toZoo(date.getSeconds());
+         toCom(prevStr,nextStr);
+         prevStr=nextStr;
+	}
+
+	function toCom(str1,str2){
+		arr=[];
+        for(var i=0;i<str1.length;i++){
+        	if(str1[i]!=str2[i]){
+        		arr.push(i);
+        	}
+        }
+        toMove();
+	}
+
+	function toMove(){
+		var iSpeed=-4;
+		timer=setInterval(function (){
+            for(var i=0;i<arr.length;i++){
+                 if(oImg[arr[i]].offsetHeight==0){
+                   		iSpeed=4;
+                   		// oImg[arr[i]].src=nextStr.charAt(arr[i])+'.jpg';
+                   }
+                   oImg[arr[i]].src=nextStr.charAt(arr[i])+'.jpg';
+                   // oImg[arr[i]].style.height=oImg[arr[i]].offsetHeight+iSpeed+'px';
+                   //   oImg[arr[i]].style.top=oImg[arr[i]].offsetHeight/2-18+'px';
+                   //  if (oImg[arr[i]].offsetHeight==36) {
+                  	// clearInterval(timer);
+                   // }
+               }
+		},30);
+}
+
+     function toZoo(num){
+                if(num<10){
+                	return '0' + num;
+                }else{
+                	return '' + num;
+                }
+			}
+	</script>
+
+</body>
+</html>

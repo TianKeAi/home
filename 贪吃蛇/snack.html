@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>贪吃蛇</title>
+	<style type="text/css">
+		#box{
+			width: 600px;
+			height: 500px;
+			margin-left:200px;
+			position: relative;
+			background: #000;
+      float: left;
+		}
+		#img{
+        position: absolute;
+        width:400px;
+        height: 224px;
+        background: url(images/snck.jpg) no-repeat;
+        left: 100px;
+        top: 100px;
+		}
+		#bBu{
+			position: absolute;
+			width: 284px;
+			height: 73px;
+			left: 150px;
+			top: 350px;
+			border: 2px solid #000;
+			border-radius: 20px;
+			background: url(images/strat.jpg) no-repeat;
+		}
+		
+		#oli{
+			position: absolute;
+      width: 10px;
+      height: 10px;			
+			border-radius: 2px;
+			background: red;
+		}
+		.oli{
+			position: absolute;
+      width: 10px;
+      height: 10px;			
+			border-radius: 2px;
+			background: pink;
+		}
+		#foot1{
+			width: 10px;
+			height: 10px;
+			margin: 0px;
+			padding: 0px;
+			position: absolute;
+			background: white;
+			
+		}
+    #op{
+      width: 100px;
+      height: 50px;
+      font-family: "微软雅黑";
+      font-size: 24px;
+      color:#000;
+    }
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div id="img"></div>
+		<button id="bBu"></button>
+	</div>
+  
+	<script type="text/javascript">
+  var oBody=document.getElementsByTagName('body')[0];
+	    var aBox=document.getElementById('box');
+	    var aImg=document.getElementById('img');
+		var aBu=document.getElementById("bBu");
+    var f=0;
+		aBu.onclick=function(){
+			aBox.removeChild(aImg);
+			aBox.removeChild(aBu);
+			strat();
+		}
+		function strat(){
+      var aSpan=document.createElement('span');      
+      oBody.appendChild(aSpan);
+      aSpan.id='op';
+			var oSnack=document.createElement('div');
+			aBox.appendChild(oSnack);
+			oSnack.className='oli';
+			oSnack.id='oli';
+			oSnack.style.left=parseInt(Math.random()*590)+'px';
+			oSnack.style.top=parseInt(Math.random()*490)+'px';
+			var aSnack=document.getElementsByClassName('oli');
+			var foot=document.createElement('div');
+			aBox.appendChild(foot);
+			foot.id='foot1';
+		    var foot2=document.getElementById('foot1');
+		    foot2.style.left=parseInt(Math.random()*590)+'px';
+		    foot2.style.top=parseInt(Math.random()*490)+'px';
+			
+			var timer=null;
+			var num=3;
+			var iSpeed=10;
+			document.onkeydown=function(en){
+               var en=en||window.event;
+                if (en.keyCode==37) {
+                 num=1;
+                 iSpeed=-10;
+               }
+                if (en.keyCode==38) {
+                  num=2;
+                 iSpeed=-10;
+               }
+                if (en.keyCode==39) {
+                 num=3;
+                 iSpeed=10;
+               }
+                if (en.keyCode==40) {
+                num=4;
+                 iSpeed=10;
+               }
+           }
+               timer=setInterval(function(){
+               	var arr=[];                                              
+               	eat(num);
+                
+               	 for(var i=0;i<aSnack.length-1;i++){
+                      arr.push({l:aSnack[i].offsetLeft,t:aSnack[i].offsetTop});
+                  }
+                      if (num==1||num==3) {
+                        var aLeft=aSnack[0].offsetLeft+iSpeed;
+                        var aTop=aSnack[0].offsetTop;
+            	          aSnack[0].style.left=aLeft+'px';
+                       
+                        die(aLeft,aTop,arr);
+                 
+                    }else{
+              	        if (num==2||num==4) {
+                        var aLeft=aSnack[0].offsetLeft;
+                        var aTop=aSnack[0].offsetTop+iSpeed;
+                        aSnack[0].style.top=aTop+'px'; 
+
+                        die(aLeft,aTop,arr);
+                 	}
+              }
+              // alert(aLeft);
+              // // alert(aTop);
+              // alert(arr[0].l);
+              //  die(aLeft,aTop,arr);
+              for(var i=0;i<aSnack.length-1;i++){
+                     aSnack[i+1].style.left=arr[i].l+'px';               		
+                     aSnack[i+1].style.top=arr[i].t+'px';                 
+                  }
+                               		            
+            },100)	   
+		}
+
+function creaTe(num1){
+	var oSnack=document.getElementsByClassName('oli');             
+  // var arr1=[];  
+  // var arr2=[];     
+              	var oLeft=(oSnack[oSnack.length-1]).offsetLeft;
+              	var oTop=(oSnack[oSnack.length-1]).offsetTop;
+              	var oDiv=document.createElement('div');
+              	aBox.appendChild(oDiv);
+              	oDiv.className='oli';
+	          if (num1==1) {
+              	
+                oDiv.style.left=oLeft+10+'px';
+                oDiv.style.top=oTop+'px';
+
+              }
+              if (num1==2) {
+              
+                oDiv.style.left=oLeft+'px';
+                oDiv.style.top=oTop+10+'px';
+
+              }
+              if (num1==3) {
+              	
+                oDiv.style.left=oLeft-10+'px';
+                oDiv.style.top=oTop+'px';
+
+              }
+              if (num1==4) {
+              
+                oDiv.style.left=oLeft+'px';
+                oDiv.style.top=oTop-10+'px';
+
+              }
+             
+}
+    function eat(num){
+    	  var jifen=document.getElementById('op');
+        jifen.innerHTML="积分："+f;
+        var foot2=document.getElementById('foot1');
+        var fLeft=foot2.offsetLeft;
+        var fTop=foot2.offsetTop;        
+        var aSnack=document.getElementsByClassName('oli')[0];
+        var oLeft=aSnack.offsetLeft;
+        var oTop=aSnack.offsetTop;
+        var num1=num;
+        if(num1==1){
+        	if (oLeft<fLeft&&Math.abs(oTop-fTop)<10) {
+        	aBox.removeChild(foot2);
+          f++;
+        	creaTe(num1);
+        	creFoot();
+        	}
+        }
+        if (num1==2) {
+        	if (oTop<fTop&&Math.abs(oLeft-fLeft)<10) {
+        	aBox.removeChild(foot2);
+          f++;
+        	creaTe(num1);
+        	creFoot();
+        	}
+        }
+        if (num1==3) {
+        	if (oLeft>fLeft&&Math.abs(oTop-fTop)<10) {
+        	aBox.removeChild(foot2);
+          f++;
+        	creaTe(num1);
+        	creFoot();
+        	}
+        }
+        	if (num1==4) {
+        		if (oTop>fTop&&Math.abs(oLeft-fLeft)<10) {
+        		aBox.removeChild(foot2);
+            f++;
+        	    creaTe(num1);
+        	    creFoot();
+        		}
+        	}
+    }
+    function creFoot(){
+        var foot=document.createElement('div');
+			aBox.appendChild(foot);
+			foot.id='foot1';
+		    var foot2=document.getElementById('foot1');
+		    foot2.style.left=parseInt(Math.random()*600)+'px';
+		    foot2.style.top=parseInt(Math.random()*500)+'px';
+    }
+
+		function die(aLeft,aTop,arra){
+      // alert(2);
+      
+       for(var i=0;i<arra.length;i++){
+          // alert(aLeft);
+          // alert(arra[0].l);
+          if(aLeft==arra[i].l&&aTop==arra[i].t){
+            alert("自杀身亡，总得分："+f);
+          }
+        }
+        // alert(bLeft);
+          if (aLeft>=590||aLeft<=0||aTop<=0||aTop>=490) {
+            alert("撞墙死亡，总得分："+f);
+          }
+    }
+	</script>
+</body>
+</html>

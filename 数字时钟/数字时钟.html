@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>time</title>
+	<style type="text/css">
+		body{
+			background: pink;
+			color: white;
+			font-size: 30px;
+		}
+		#box{
+			position:absolute;
+			width: 250px;
+			left:200px;
+			top: 200px;
+			height: 36px;
+			border:1px solid #fff;
+			background: #d8e0e2;
+			border-radius: 5px;
+		}
+		#box img{
+			width: 30px;
+			height: 36px;
+			position: relative;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<img src="0.jpg" />
+		<img src="0.jpg" />:
+		<img src="0.jpg" />
+		<img src="0.jpg" />:
+		<img src="0.jpg" />
+		<img src="0.jpg" />
+	</div>
+	<script type="text/javascript">
+			var aImg=document.getElementsByTagName('img');
+			var oDate=new Date();
+			var prevStr=toZero(oDate.getHours())+toZero(oDate.getMinutes())+toZero(oDate.getSeconds());
+			var nextStr="";
+			var arr=[];
+			var timer=null;
+			for(i=0;i<aImg.length;i++){
+				aImg[i].src=prevStr.charAt(i)+'.jpg';
+			}
+			setInterval(toRun,1000);
+
+			function toRun(){
+                var oDate=new Date();
+                nextStr=toZero(oDate.getHours())+toZero(oDate.getMinutes())+toZero(oDate.getSeconds());
+                toCom(prevStr,nextStr);
+                prevStr=nextStr;
+			}
+
+			function toCom(str1,str2){
+				arr=[];
+				for(var i=0;i<str1.length;i++){
+                  if(str1.charAt(i)!=str2.charAt(i)){
+                   arr.push(i);
+                  }
+				}
+				startMove();
+			}
+
+			function startMove(){
+				var iSpeed=-4;
+				timer=setInterval(function(){
+                   for(var i=0;i<arr.length;i++){
+                   	if(aImg[arr[i]].offsetHeight==0){
+                   		iSpeed=4;
+                   		aImg[arr[i]].src=nextStr.charAt(arr[i])+'.jpg';
+                   }
+                     aImg[arr[i]].style.height=aImg[arr[i]].offsetHeight+iSpeed+'px';
+                     aImg[arr[i]].style.top=aImg[arr[i]].offsetHeight/2-18+'px';
+                    if (aImg[arr[i]].offsetHeight==36) {
+                   	clearInterval(timer);
+                   }
+                   }
+				},30);
+			}
+			function toZero(num){
+                if(num<10){
+                	return '0' + num;
+                }else{
+                	return '' + num;
+                }
+			}
+	</script>
+</body>
+</html>
